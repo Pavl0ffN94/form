@@ -1,44 +1,37 @@
 import {memo, useCallback} from 'react';
-import {useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import '../index.sass';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
 import {nanoid} from '@reduxjs/toolkit';
-import {addUser} from 'store/userSlice';
-
-type TupeStep1 = {
-  firstName: string;
-  lastName: string;
-};
+import {setUser} from 'store/userSlice';
+import {User} from 'types/user-types';
+import {selectUser} from 'store/userSelector';
 
 const Step1Impl = () => {
+  const currentUser = useSelector(selectUser);
   const {
     register,
     handleSubmit,
+    getValues,
     formState: {errors, isValid},
-  } = useForm<TupeStep1>({
+  } = useForm<User>({
     mode: 'onBlur',
+    defaultValues: {
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+    },
   });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleRegister = useCallback(
-    ({firstName, lastname}) => {
-      const newUser: User = {
-        id: nanoid(),
-        firstName: firstName,
-        lastname: lastname,
-      };
-      dispatch(addUser(newUser));
-    },
-    [dispatch],
-  );
-
-  const onSubmit: SubmitHandler<TupeStep1> = data => {
-    console.log(data);
-
-    handleRegister(data), navigate('/step2');
-  };
+  const onSubmit: SubmitHandler<User> = useCallback(() => {
+    const formData = getValues();
+    const newUserData = {...formData, id: nanoid()};
+    dispatch(setUser(newUserData));
+    navigate('/step2');
+  }, [dispatch, getValues, navigate]);
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>

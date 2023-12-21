@@ -3,24 +3,21 @@ import {Controller, useForm} from 'react-hook-form';
 import '../index.sass';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
-import {setUser} from 'store/userSlice';
-import {FavoritColor} from 'types/selection-types';
+
 import {User} from 'types/user-types';
+import {Sex} from 'types/selection-types';
 import {selectUser} from 'store/userSelector';
 
-const Step2Impl = () => {
+const Step3Impl = () => {
   const currentUser = useSelector(selectUser);
   const {
     register,
     handleSubmit,
-    getValues,
     control,
     formState: {errors, isValid},
   } = useForm<User>({
-    mode: 'onBlur',
     defaultValues: {
-      age: currentUser.age,
-      favoritColor: currentUser.favoritColor,
+      sex: currentUser.sex,
     },
   });
 
@@ -29,30 +26,29 @@ const Step2Impl = () => {
 
   const onSubmit: SubmitHandler<User> = useCallback(() => {
     const formData = getValues();
-    console.log(formData);
 
     dispatch(setUser(formData));
     navigate('/step3');
-  }, [dispatch, navigate, getValues]);
+  }, [dispatch, navigate]);
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>
       <input
         className='text_field'
         type='number'
-        {...register('age', {
+        {...register('sex', {
           required: 'Поле обязательно',
         })}
       />
       {errors?.age && <span className='error_span'>{errors.age.message || 'Error'}</span>}
       <Controller
-        name='favoritColor'
+        name='sex'
         control={control}
         render={({field}) => (
           <select {...field}>
-            {Object.values(FavoritColor).map(color => (
-              <option key={color} value={color}>
-                {color}
+            {Object.values(Sex).map(sex => (
+              <option key={sex} value={sex}>
+                {sex}
               </option>
             ))}
           </select>
@@ -65,4 +61,4 @@ const Step2Impl = () => {
   );
 };
 
-export const Step2 = memo(Step2Impl);
+export const Step3 = memo(Step3Impl);

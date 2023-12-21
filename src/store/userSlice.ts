@@ -1,57 +1,29 @@
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { UserState } from "types/user-types";
 
-
-
-export enum FavoritColor {
-balck ='black',
-white = 'white',
-red= 'red',
-yelow='yelow'
+const initialState:UserState = {
+    firstName:null,
+    lastName:null,
+    sex: null,
+    age:null,
+    favoritColor:null,
+    id: null
 }
 
-export type User ={
-    firstName:string,
-    lastName:string,
-    sex: string,
-    age:number,
-    favoritColor:FavoritColor,
-    id: string,
-}
-
-const usersAdapter = createEntityAdapter({
-selectId:(user:User)=> user.id,
-sortComparer:(a,b)=> a.firstName.localeCompare(b.firstName)
-});
-
-const usersSlice = createSlice({
-    name: 'Users',
-    initialState:{...usersAdapter.getInitialState(), 
-    currentUser: null
-    },
+const userSlice = createSlice({
+    name: 'user',
+    initialState,
     reducers: {
-        addUser: usersAdapter.addOne,
-        removeUser: usersAdapter.removeOne,
-        updateUser: usersAdapter.updateOne,
-        setCurrentUser: (state, action:PayloadAction<User>) =>{
-            state.currentUser = action.payload.id
-        }
+        setUser:(state, action:PayloadAction<UserState>)=>{
+            return {...state, ...action.payload}
+        },
+        clearUser: () => {
+            return {...initialState}
+        } 
     }
 })
 
-export const {
-    addUser,
-    removeUser,
-    updateUser,
-    setCurrentUser,
-  } = usersSlice.actions;
-
-  export const {
-    selectAll: selectAllUsers,
-    selectById: selectUserById,
-  } = usersAdapter.getSelectors((state) => state.users);
+export const {setUser, clearUser} = userSlice.actions;
   
-  
-  export const selectCurrentUser = (state) => state.users.currentUser;
-  
-  export const usersReducer = usersSlice.reducer;
+  export const userReducer = userSlice.reducer;
