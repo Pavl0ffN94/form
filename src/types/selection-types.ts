@@ -9,4 +9,9 @@ export enum Gender {
   male = 'male',
   femali = 'female',
 }
-export  type File =  []
+export  type File =  {
+  path: string,
+  lastModified: number
+  size:number
+  name: string,
+}

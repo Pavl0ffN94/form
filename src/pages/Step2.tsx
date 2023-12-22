@@ -29,7 +29,6 @@ const Step2Impl = () => {
 
   const onSubmit: SubmitHandler<User> = useCallback(() => {
     const formData = getValues();
-    console.log(formData);
 
     dispatch(setUser(formData));
     navigate('/step3');

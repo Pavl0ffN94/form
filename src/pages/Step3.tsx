@@ -9,55 +9,57 @@ import {File, Gender} from 'types/selection-types';
 import {selectUser} from 'store/userSelector';
 import {useDropzone} from 'react-dropzone';
 import {setUser} from 'store/userSlice';
+import {DropZoneEl} from 'components/DropZoneEl';
 
 const Step3Impl = () => {
   const currentUser = useSelector(selectUser);
   const {
     handleSubmit,
     control,
-    setValue, // Добавлено значение setValue
-    getValues, // Добавлено значение getValues
+    getValues,
+    setValue,
     formState: {isValid},
   } = useForm<User>({
     defaultValues: {
       gender: currentUser.gender,
+      files: currentUser.files,
     },
   });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const files = getValues('files');
 
   const {getRootProps, getInputProps} = useDropzone({
     accept: 'image/*',
+    multiple: true,
     onDrop: (acceptedFiles: File[]) => {
-      // Используйте setValue для установки значения поля 'files'
-      setValue('files', acceptedFiles);
+      setValue(
+        'files',
+        acceptedFiles.map(file => ({
+          name: file.name,
+          lastModified: file.lastModified,
+          size: file.size,
+          path: file.path,
+        })),
+      );
     },
   });
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<User> = useCallback(() => {
     const formData = getValues();
     console.log(formData);
 
-    dispatch(setUser(formData));
+    dispatch(setUser(formData, files));
     navigate('/step3');
-  }, [dispatch, navigate, getValues]);
-
-  // Получите значение поля 'files' из хука формы
-  const files = getValues('files');
+  }, [dispatch, navigate, getValues, files]);
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>
-      <div {...getRootProps()} className='dropzone'>
-        <input {...getInputProps()} />
-        <p>Перетащите сюда файлы или кликните, чтобы выбрать файлы</p>
-      </div>
-
-      {/* Поле для просмотра выбранных файлов */}
-      <ul>
-        {files &&
-          files.map((file: File, index: number) => <li key={index}>{file.name}</li>)}
-      </ul>
+      <DropZoneEl
+        files={files}
+        getInputProps={getInputProps}
+        getRootProps={getRootProps}
+      />
       <Controller
         name='gender'
         control={control}

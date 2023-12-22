@@ -1,4 +1,4 @@
-import { FavoritColor, Gender } from "./selection-types"
+import { FavoritColor, File, Gender } from "./selection-types"
 
 export type User ={
     firstName:string,
@@ -7,7 +7,7 @@ export type User ={
     age:number,
     favoritColor:FavoritColor,
     id: string,
-    files: []
+    files: File[]
 }
 export type UserState = {
     firstName:string | '',
@@ -16,5 +16,5 @@ export type UserState = {
     age:number | '',
     favoritColor:FavoritColor | '',
     id: string | '',
-    files: []
+    files: File[]
 }

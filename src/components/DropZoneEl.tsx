@@ -1,36 +1,25 @@
 import {memo} from 'react';
-import {Controller} from 'react-hook-form';
-import {List} from './List';
-import Dropzone from 'react-dropzone';
+import {File} from 'types/selection-types';
+
 interface Iprops {
-  onChange: () => void;
-  onBlur: () => void;
-  value: string[];
+  getInputProps: () => void;
+  getRootProps: () => void;
+  files: File[];
 }
-const DropZoneElImpl = ({control, name}) => {
+
+const DropZoneElImpl = ({getRootProps, getInputProps, files}: Iprops) => {
   return (
-    <Controller
-      control={control}
-      name={name}
-      defaultValue={[]}
-      render={({onChange, onBlur, value}: Iprops) => {
-        <>
-          <Dropzone onDrop={onChange}>
-            {({getRootProps, getInputProps}) => (
-              <div {...getRootProps()}>
-                <input {...getInputProps()} name={name} onBlur={onBlur} />
-                <p>Drag'n drop files here, or click to select files</p>
-              </div>
-            )}
-          </Dropzone>
-          <List>
-            {value?.map((file, index) => {
-              <span key={index}>{file}</span>;
-            })}
-          </List>
-        </>;
-      }}
-    />
+    <>
+      <div {...getRootProps()} className='dropzone'>
+        <input {...getInputProps()} />
+        <p>Перетащите сюда файлы или кликните, чтобы выбрать файлы</p>
+      </div>
+
+      <ul>
+        {files &&
+          files.map((file: File, index: number) => <li key={index}>{file.name}</li>)}
+      </ul>
+    </>
   );
 };
 
