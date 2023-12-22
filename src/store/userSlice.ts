@@ -8,7 +8,8 @@ const initialState:UserState = {
     gender: undefined,
     age: '',
     favoritColor: undefined,
-    id: undefined
+    id: undefined,
+    files: []
 }
 
 const userSlice = createSlice({

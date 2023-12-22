@@ -9,3 +9,4 @@ export enum Gender {
   male = 'male',
   femali = 'female',
 }
+export  type File =  []

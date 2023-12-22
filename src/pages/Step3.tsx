@@ -1,23 +1,34 @@
+import React from 'react';
 import {memo, useCallback} from 'react';
-import {Controller, useForm} from 'react-hook-form';
-import '../index.sass';
+import {Controller, useForm, SubmitHandler} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
 
 import {User} from 'types/user-types';
-import {Gender} from 'types/selection-types';
+import {File, Gender} from 'types/selection-types';
 import {selectUser} from 'store/userSelector';
-import {DropZoneEl} from 'components/DropZoneEl';
+import {useDropzone} from 'react-dropzone';
+import {setUser} from 'store/userSlice';
 
 const Step3Impl = () => {
   const currentUser = useSelector(selectUser);
   const {
     handleSubmit,
     control,
+    setValue, // Добавлено значение setValue
+    getValues, // Добавлено значение getValues
     formState: {isValid},
   } = useForm<User>({
     defaultValues: {
       gender: currentUser.gender,
+    },
+  });
+
+  const {getRootProps, getInputProps} = useDropzone({
+    accept: 'image/*',
+    onDrop: (acceptedFiles: File[]) => {
+      // Используйте setValue для установки значения поля 'files'
+      setValue('files', acceptedFiles);
     },
   });
 
@@ -30,13 +41,23 @@ const Step3Impl = () => {
 
     dispatch(setUser(formData));
     navigate('/step3');
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, getValues]);
+
+  // Получите значение поля 'files' из хука формы
+  const files = getValues('files');
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>
-      <input type='file'>
-        <DropZoneEl control={control} name='files' />
-      </input>
+      <div {...getRootProps()} className='dropzone'>
+        <input {...getInputProps()} />
+        <p>Перетащите сюда файлы или кликните, чтобы выбрать файлы</p>
+      </div>
+
+      {/* Поле для просмотра выбранных файлов */}
+      <ul>
+        {files &&
+          files.map((file: File, index: number) => <li key={index}>{file.name}</li>)}
+      </ul>
       <Controller
         name='gender'
         control={control}

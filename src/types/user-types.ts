@@ -7,6 +7,7 @@ export type User ={
     age:number,
     favoritColor:FavoritColor,
     id: string,
+    files: []
 }
 export type UserState = {
     firstName:string | '',
@@ -15,4 +16,5 @@ export type UserState = {
     age:number | '',
     favoritColor:FavoritColor | '',
     id: string | '',
+    files: []
 }
