@@ -3,12 +3,12 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { UserState } from "types/user-types";
 
 const initialState:UserState = {
-    firstName:null,
-    lastName:null,
-    sex: null,
-    age:null,
-    favoritColor:null,
-    id: null
+    firstName: '',
+    lastName: '',
+    gender: undefined,
+    age: '',
+    favoritColor: undefined,
+    id: undefined
 }
 
 const userSlice = createSlice({

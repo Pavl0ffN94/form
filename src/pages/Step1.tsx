@@ -37,6 +37,7 @@ const Step1Impl = () => {
     <form className='form' onSubmit={handleSubmit(onSubmit)}>
       <input
         className='text_field'
+        placeholder='Ваше Имя'
         {...register('firstName', {
           required: 'Поле обязательно',
           minLength: {
@@ -50,6 +51,7 @@ const Step1Impl = () => {
       )}
       <input
         className='text_field'
+        placeholder='Ваша Фамилия'
         {...register('lastName', {
           required: 'Поле обязательно',
           minLength: {

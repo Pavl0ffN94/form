@@ -40,18 +40,20 @@ const Step2Impl = () => {
       <input
         className='text_field'
         type='number'
+        placeholder='Ваш возраст'
         {...register('age', {
           required: 'Поле обязательно',
         })}
       />
       {errors?.age && <span className='error_span'>{errors.age.message || 'Error'}</span>}
+      <label className='label'>Ваш любимый цвет</label>
       <Controller
         name='favoritColor'
         control={control}
         render={({field}) => (
-          <select {...field}>
+          <select className='select' {...field}>
             {Object.values(FavoritColor).map(color => (
-              <option key={color} value={color}>
+              <option className='select_option' key={color} value={color}>
                 {color}
               </option>
             ))}

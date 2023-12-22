@@ -2,10 +2,10 @@ export enum FavoritColor {
   black = 'black',
   white = 'white',
   red = 'red',
-  yelow = 'yelow',
+  yelow = 'yellow',
 }
 
-export enum Sex {
+export enum Gender {
   male = 'male',
   femali = 'female',
 }

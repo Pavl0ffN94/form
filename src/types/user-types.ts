@@ -1,18 +1,18 @@
-import { FavoritColor } from "./selection-types"
+import { FavoritColor, Gender } from "./selection-types"
 
 export type User ={
     firstName:string,
     lastName:string,
-    sex: string,
+    gender: Gender,
     age:number,
     favoritColor:FavoritColor,
     id: string,
 }
 export type UserState = {
-    firstName:string | null,
-    lastName:string | null,
-    sex: string | null,
-    age:number | null,
-    favoritColor:FavoritColor | null,
-    id: string | null,
+    firstName:string | '',
+    lastName:string | '',
+    gender: Gender | '',
+    age:number | '',
+    favoritColor:FavoritColor | '',
+    id: string | '',
 }

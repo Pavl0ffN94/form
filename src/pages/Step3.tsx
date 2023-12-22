@@ -5,19 +5,19 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
 
 import {User} from 'types/user-types';
-import {Sex} from 'types/selection-types';
+import {Gender} from 'types/selection-types';
 import {selectUser} from 'store/userSelector';
+import {DropZoneEl} from 'components/DropZoneEl';
 
 const Step3Impl = () => {
   const currentUser = useSelector(selectUser);
   const {
-    register,
     handleSubmit,
     control,
-    formState: {errors, isValid},
+    formState: {isValid},
   } = useForm<User>({
     defaultValues: {
-      sex: currentUser.sex,
+      gender: currentUser.gender,
     },
   });
 
@@ -26,6 +26,7 @@ const Step3Impl = () => {
 
   const onSubmit: SubmitHandler<User> = useCallback(() => {
     const formData = getValues();
+    console.log(formData);
 
     dispatch(setUser(formData));
     navigate('/step3');
@@ -33,22 +34,17 @@ const Step3Impl = () => {
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>
-      <input
-        className='text_field'
-        type='number'
-        {...register('sex', {
-          required: 'Поле обязательно',
-        })}
-      />
-      {errors?.age && <span className='error_span'>{errors.age.message || 'Error'}</span>}
+      <input type='file'>
+        <DropZoneEl control={control} name='files' />
+      </input>
       <Controller
-        name='sex'
+        name='gender'
         control={control}
         render={({field}) => (
-          <select {...field}>
-            {Object.values(Sex).map(sex => (
-              <option key={sex} value={sex}>
-                {sex}
+          <select required={true} className='select' {...field}>
+            {Object.values(Gender).map(gender => (
+              <option className='select_option' key={gender} value={gender}>
+                {gender}
               </option>
             ))}
           </select>
