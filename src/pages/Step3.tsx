@@ -30,7 +30,9 @@ const Step3Impl = () => {
   const files = getValues('files');
 
   const {getRootProps, getInputProps} = useDropzone({
-    accept: '.png,.jpg,.gif',
+    accept: {
+      'image/*': ['.jpeg', '.png'],
+    },
     multiple: false,
     onDrop: (acceptedFiles: File[]) => {
       setValue(
