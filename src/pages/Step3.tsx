@@ -21,7 +21,7 @@ const Step3Impl = () => {
     formState: {isValid},
   } = useForm<User>({
     defaultValues: {
-      gender: currentUser.gender,
+      gender: currentUser.gender || Gender.male,
       files: currentUser.files,
     },
   });
@@ -30,8 +30,8 @@ const Step3Impl = () => {
   const files = getValues('files');
 
   const {getRootProps, getInputProps} = useDropzone({
-    accept: 'image/*',
-    multiple: true,
+    accept: '.png,.jpg,.gif',
+    multiple: false,
     onDrop: (acceptedFiles: File[]) => {
       setValue(
         'files',
@@ -47,10 +47,8 @@ const Step3Impl = () => {
 
   const onSubmit: SubmitHandler<User> = useCallback(() => {
     const formData = getValues();
-    console.log(formData);
-
     dispatch(setUser(formData, files));
-    navigate('/step3');
+    navigate('/finish');
   }, [dispatch, navigate, getValues, files]);
 
   return (
@@ -60,6 +58,7 @@ const Step3Impl = () => {
         getInputProps={getInputProps}
         getRootProps={getRootProps}
       />
+      <label className='label'>Ваш пол</label>
       <Controller
         name='gender'
         control={control}

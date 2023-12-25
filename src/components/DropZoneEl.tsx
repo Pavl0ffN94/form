@@ -1,25 +1,27 @@
 import {memo} from 'react';
 import {File} from 'types/selection-types';
+import '../index.sass';
 
 interface Iprops {
-  getInputProps: () => void;
-  getRootProps: () => void;
+  getRootProps: <T extends DropzoneRootProps>(props?: T) => T;
+  getInputProps: <T extends DropzoneInputProps>(props?: T) => T;
   files: File[];
 }
 
 const DropZoneElImpl = ({getRootProps, getInputProps, files}: Iprops) => {
-  return (
-    <>
-      <div {...getRootProps()} className='dropzone'>
-        <input {...getInputProps()} />
-        <p>Перетащите сюда файлы или кликните, чтобы выбрать файлы</p>
-      </div>
+  console.log(files);
 
-      <ul>
-        {files &&
-          files.map((file: File, index: number) => <li key={index}>{file.name}</li>)}
-      </ul>
-    </>
+  return (
+    <div className='dropzone_container'>
+      <div className='dropzone_area' {...getRootProps()}>
+        <input {...getInputProps()} />
+        {files.length === 0 ? (
+          <p>Перетащите сюда фаилы</p>
+        ) : (
+          <p>Ваш фаил: {files[0].name}</p>
+        )}
+      </div>
+    </div>
   );
 };
 

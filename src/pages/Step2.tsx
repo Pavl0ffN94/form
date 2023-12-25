@@ -20,7 +20,7 @@ const Step2Impl = () => {
     mode: 'onBlur',
     defaultValues: {
       age: currentUser.age,
-      favoritColor: currentUser.favoritColor,
+      favoritColor: currentUser.favoritColor || FavoritColor.black,
     },
   });
 
