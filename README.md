@@ -1,30 +1,36 @@
-# React + TypeScript + Vite
+# Temlate React Form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+это проект шаблона формы в нем 3 шага
+на каждом из них пользователь выбирает несколько полей
+есть простые текстовые и числовые поля
+селекты с выбором из списка
+компонент Dropzone
+в конце отправка происходит на тестовый сервер расположеный
+на локальном порту 4000(можно поменять в файле server.js)
 
-Currently, two official plugins are available:
+## Инструкции по установке
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Клонировать репозиторий: `git clone https://github.com/Pavl0ffN94/form.git`
+2. Перейти в директорию проекта: `cd form`
+3. Установить зависимости: `yarn install`
 
-## Expanding the ESLint configuration
+## Запуск проекта
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Запустить клиентскую часть: `yarn dev`
+2. Запустить серверную часть: `yarn start:server`
 
-- Configure the top-level `parserOptions` property like this:
+## Технологии
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+для обработки форм я использовал react-hooks-form
+для роутинга react-router
+для хранения формы между переходами Redux Toolkit
+для сборки Vite
+также TypeScript для типизации данных
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Структура проекта
+
+В поекте есть папка pages там хранятся компоненты каждой страници представленной в форме
+в папке stor хранится все что связано со стором(слайсы, селекторы)
+в папке types хранятся типы
+в папке components хранится компонент dropzone
+(изначально думал что компонентов будет больше)
