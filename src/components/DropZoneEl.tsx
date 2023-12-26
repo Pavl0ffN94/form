@@ -9,14 +9,12 @@ interface Iprops {
 }
 
 const DropZoneElImpl = ({getRootProps, getInputProps, files}: Iprops) => {
-  console.log(files);
-
   return (
     <div className='dropzone_container'>
       <div className='dropzone_area' {...getRootProps()}>
         <input {...getInputProps()} />
         {files.length === 0 ? (
-          <p>Перетащите сюда фаилы</p>
+          <p>Перетащите сюда фаилы или нажмите для выбора</p>
         ) : (
           <p>Ваш фаил: {files[0].name}</p>
         )}

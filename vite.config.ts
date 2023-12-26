@@ -11,5 +11,10 @@ export default defineConfig({
       pages:"/src/pages",
       types: "/src/types"
     }
-  }
+  },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:4000', 
+    },
+  },
 })
