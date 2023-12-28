@@ -3,8 +3,12 @@ import {File} from 'types/selection-types';
 import '../index.sass';
 
 interface Iprops {
-  getRootProps: <T extends DropzoneRootProps>(props?: T) => T;
-  getInputProps: <T extends DropzoneInputProps>(props?: T) => T;
+  getRootProps: () => {
+    [key: string]: unknown;
+  };
+  getInputProps: () => {
+    [key: string]: unknown;
+  };
   files: File[];
 }
 

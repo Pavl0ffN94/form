@@ -19,8 +19,9 @@ const FinishImpl = () => {
     }
 
     entries.forEach(entry => {
-      formData.append(entry[0], entry[1]);
+      formData.append(entry[0], entry[1] as string | Blob);
     });
+    console.log(formData);
 
     try {
       const response = await fetch('http://localhost:4000', {
@@ -54,7 +55,7 @@ const FinishImpl = () => {
           {entries.map(entry => (
             <tr className='table_field' key={entry[0]}>
               <td className='table_label-field'>{entry[0]}</td>
-              <td align='right'>{entry[1]}</td>
+              <td align='right'>{String(entry[1])}</td>
             </tr>
           ))}
         </tbody>

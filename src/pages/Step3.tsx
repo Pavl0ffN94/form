@@ -1,13 +1,11 @@
-import React from 'react';
 import {memo, useCallback} from 'react';
 import {Controller, useForm, SubmitHandler} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
-
 import {User} from 'types/user-types';
-import {File, Gender} from 'types/selection-types';
+import {Gender} from 'types/selection-types';
 import {selectUser} from 'store/userSelector';
-import {useDropzone} from 'react-dropzone';
+import {FileWithPath, useDropzone} from 'react-dropzone';
 import {setUser} from 'store/userSlice';
 import {DropZoneEl} from 'components/DropZoneEl';
 
@@ -34,14 +32,14 @@ const Step3Impl = () => {
       'image/*': ['.jpeg', '.png'],
     },
     multiple: false,
-    onDrop: (acceptedFiles: File[]) => {
+    onDrop: (acceptedFiles: FileWithPath[]) => {
       setValue(
         'files',
-        acceptedFiles.map(file => ({
+        acceptedFiles.map((file: FileWithPath) => ({
           name: file.name,
           lastModified: file.lastModified,
           size: file.size,
-          path: file.path,
+          path: file.path || '',
         })),
       );
     },
@@ -49,9 +47,9 @@ const Step3Impl = () => {
 
   const onSubmit: SubmitHandler<User> = useCallback(() => {
     const formData = getValues();
-    dispatch(setUser(formData, files));
+    dispatch(setUser({...formData, files}));
     navigate('/finish');
-  }, [dispatch, navigate, getValues, files]);
+  }, [getValues, dispatch, files, navigate]);
 
   return (
     <form className='form' onSubmit={handleSubmit(onSubmit)}>

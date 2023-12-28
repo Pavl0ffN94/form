@@ -5,10 +5,10 @@ import { UserState } from "types/user-types";
 const initialState:UserState = {
     firstName: '',
     lastName: '',
-    gender: undefined,
+    gender: '',
     age: '',
-    favoritColor: undefined,
-    id: undefined,
+    favoritColor: '',
+    id: '',
     files: []
 }
 

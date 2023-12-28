@@ -1,5 +1,5 @@
 import {memo, useCallback} from 'react';
-import {Controller, useForm} from 'react-hook-form';
+import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import '../index.sass';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
@@ -19,7 +19,7 @@ const Step2Impl = () => {
   } = useForm<User>({
     mode: 'onBlur',
     defaultValues: {
-      age: currentUser.age,
+      age: Number(currentUser.age),
       favoritColor: currentUser.favoritColor || FavoritColor.black,
     },
   });
